@@ -13,24 +13,24 @@
         <div class="form-container sign-up-container">
             <div class="form-header">
                 <i class="fas fa-user-plus"></i>
-                <h1>Sign Up</h1>
+                <h1>Create Account</h1>
             </div>
             <form id="signupForm">
-                <input type="text" id="signupUsername" placeholder="User name" required />
+                <input type="text" id="signupUsername" placeholder="Username" required />
                 <input type="email" id="signupEmail" placeholder="Email" required />
                 <div class="password-container">
                     <input type="password" id="signupPassword" placeholder="Password" required />
                     <i class="fas fa-eye" id="toggleSignupPassword"></i>
                 </div>
-                <button type="submit">Sign Up</button>
+                <button type="submit" class="pink-btn">Sign Up</button>
             </form>
-            <p>Already Have Account? <a id="goToLogin">Login</a></p>
+            <p>Already have an account? <a id="goToLogin">Login</a></p>
         </div>
         
         <div class="form-container login-container">
             <div class="form-header">
                 <i class="fas fa-sign-in-alt"></i>
-                <h1>Login</h1>
+                <h1>Welcome Back!</h1>
             </div>
             <form id="loginForm">
                 <input type="email" id="loginEmail" placeholder="Email" required />
@@ -38,27 +38,27 @@
                     <input type="password" id="loginPassword" placeholder="Password" required />
                     <i class="fas fa-eye" id="toggleLoginPassword"></i>
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" class="purple-btn">Login</button>
                 <div class="forgot-password">
                     <a id="forgotPassword">Forgot Password?</a>
                 </div>
             </form>
-            <p>Create An Account <a id="goToSignup">Sign Up</a></p>
+            <p>Don't have an account? <a id="goToSignup">Sign Up</a></p>
         </div>
         
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
-                    <i class="fas fa-sign-in-alt"></i>
+                    <i class="fas fa-heart"></i>
                     <h1>Welcome Back!</h1>
                     <p>To keep connected with us please login with your personal info</p>
-                    <button id="signInButton">Sign In</button>
+                    <button id="signInButton" class="pink-outline-btn">Sign In</button>
                 </div>
                 <div class="overlay-panel overlay-right">
-                    <i class="fas fa-user-plus"></i>
+                    <i class="fas fa-star"></i>
                     <h1>Hello, Friend!</h1>
                     <p>Enter your personal details and start your journey with us</p>
-                    <button id="signUpButton">Sign Up</button>
+                    <button id="signUpButton" class="purple-outline-btn">Sign Up</button>
                 </div>
             </div>
         </div>
