@@ -1,229 +1,350 @@
-* {
+/* ============================================================
+   BASE RESET & VARIABLES
+   ============================================================ */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+}
+
+:root {
+    --purple: #8a2be2;
+    --purple-dark: #6a1cb2;
+    --pink: #ff69b4;
+    --pink-light: #ff8acb;
+    --white: #ffffff;
+    --bg-input: #f4f4f8;
+    --text-dark: #2d2d3a;
+    --text-mid: #555;
+    --text-light: #888;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --transition: 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    --shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
 }
 
 body {
+    font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #8a2be2, #ff69b4);
+    background: linear-gradient(135deg, #6a1cb2 0%, #8a2be2 40%, #ff69b4 100%);
     padding: 20px;
-    position: relative;
     overflow-x: hidden;
 }
 
-/* Decorative elements */
-body::before {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: rgba(255, 105, 180, 0.1);
-    top: -100px;
-    left: -100px;
-    z-index: -1;
+/* ============================================================
+   DECORATIVE BACKGROUND SHAPES
+   ============================================================ */
+.bg-shapes {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
 }
 
-body::after {
+.bg-shapes::before,
+.bg-shapes::after {
     content: '';
     position: absolute;
-    width: 200px;
-    height: 200px;
     border-radius: 50%;
-    background: rgba(138, 43, 226, 0.1);
-    bottom: -50px;
-    right: -50px;
-    z-index: -1;
+    opacity: 0.15;
 }
 
+.bg-shapes::before {
+    width: 400px;
+    height: 400px;
+    background: var(--pink);
+    top: -120px;
+    left: -120px;
+    animation: driftA 12s ease-in-out infinite alternate;
+}
+
+.bg-shapes::after {
+    width: 280px;
+    height: 280px;
+    background: var(--purple);
+    bottom: -80px;
+    right: -80px;
+    animation: driftB 10s ease-in-out infinite alternate;
+}
+
+@keyframes driftA {
+    to { transform: translate(40px, 40px); }
+}
+@keyframes driftB {
+    to { transform: translate(-30px, -30px); }
+}
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
 .container {
     position: relative;
     width: 100%;
-    max-width: 900px;
-    background-color: #fff;
-    border-radius: 25px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    max-width: 920px;
+    min-height: 560px;
+    background: var(--white);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
     overflow: hidden;
     display: flex;
-    min-height: 550px;
+    z-index: 1;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
 }
 
+/* ============================================================
+   FORM CONTAINERS (Desktop — side by side)
+   ============================================================ */
 .form-container {
     position: absolute;
     top: 0;
+    left: 0;
+    width: 50%;
     height: 100%;
-    transition: all 0.6s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 50px;
-    width: 50%;
+    padding: 50px 45px;
+    transition: transform var(--transition), opacity var(--transition);
+    will-change: transform, opacity;
+}
+
+/* Login is shown by default */
+.login-container {
+    z-index: 2;
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .sign-up-container {
-    left: 0;
-    width: 50%;
-    opacity: 0;
     z-index: 1;
+    opacity: 0;
+    transform: translateX(-20px);
+    pointer-events: none;
 }
 
-.login-container {
-    left: 0;
-    width: 50%;
-    z-index: 2;
-}
-
+/* When signup panel is active */
 .container.right-panel-active .login-container {
     transform: translateX(100%);
     opacity: 0;
+    pointer-events: none;
     z-index: 1;
 }
 
 .container.right-panel-active .sign-up-container {
     transform: translateX(100%);
     opacity: 1;
+    pointer-events: all;
     z-index: 2;
 }
 
+/* ============================================================
+   FORM HEADER
+   ============================================================ */
 .form-header {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    width: 100%;
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    margin-bottom: 28px;
+    width: 100%;
 }
 
 .form-header i {
-    font-size: 32px;
-    background: linear-gradient(45deg, #8a2be2, #ff69b4);
+    font-size: 34px;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 50%;
-    background-color: rgba(138, 43, 226, 0.1);
+    margin-bottom: 14px;
+    display: block;
 }
 
 .form-header h1 {
+    font-size: 26px;
     font-weight: 700;
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 28px;
+    color: var(--text-dark);
+    letter-spacing: -0.3px;
+}
+
+/* ============================================================
+   INPUT GROUP
+   ============================================================ */
+.input-group {
+    position: relative;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.input-group > i:first-child {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 15px;
+    pointer-events: none;
+    transition: color 0.3s;
+}
+
+.input-group:focus-within > i:first-child {
+    color: var(--pink);
 }
 
 .form-container input {
-    background-color: #f9f9f9;
-    border: none;
-    padding: 15px 20px;
-    margin: 10px 0;
     width: 100%;
-    border-radius: 12px;
-    font-size: 15px;
-    border: 2px solid #f0f0f0;
-    transition: all 0.3s;
+    background: var(--bg-input);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 14px 18px 14px 46px;
+    font-size: 14.5px;
+    color: var(--text-dark);
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-container input::placeholder {
+    color: var(--text-light);
 }
 
 .form-container input:focus {
     outline: none;
-    border-color: #ff69b4;
-    background-color: #fff;
-    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2);
+    border-color: var(--pink);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.15);
 }
 
-/* Button Styles */
-.purple-btn {
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(to right, #8a2be2, #9d4edd);
-    color: white;
+/* Password toggle icon */
+.toggle-pw {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
     font-size: 16px;
-    font-weight: 600;
-    padding: 15px 45px;
-    margin-top: 20px;
-    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.25s, transform 0.25s;
+    padding: 4px;
+    user-select: none;
+}
+
+.toggle-pw:hover {
+    color: var(--pink);
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px 30px;
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s;
-    width: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
     position: relative;
     overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0);
+    transition: background 0.25s;
+}
+
+.btn:hover::after {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.purple-btn {
+    background: linear-gradient(135deg, var(--purple), #a044ef);
+    color: var(--white);
 }
 
 .pink-btn {
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(to right, #ff69b4, #ff8acb);
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 15px 45px;
-    margin-top: 20px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    color: var(--white);
 }
 
-.purple-btn:hover, .pink-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
-}
-
-.purple-btn:active, .pink-btn:active {
-    transform: translateY(-1px);
-}
-
+/* ============================================================
+   LINKS & FORGOT PASSWORD
+   ============================================================ */
 .form-container p {
-    margin-top: 25px;
-    font-size: 15px;
-    color: #666;
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--text-mid);
     text-align: center;
 }
 
-.form-container a {
-    color: #ff69b4;
+.form-container a,
+.switch-link {
+    color: var(--pink);
     text-decoration: none;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s;
     position: relative;
+    transition: color 0.2s;
 }
 
-.form-container a::after {
+.form-container a::after,
+.switch-link::after {
     content: '';
     position: absolute;
     width: 0;
     height: 2px;
     bottom: -2px;
     left: 0;
-    background-color: #ff69b4;
-    transition: width 0.3s;
+    background: var(--pink);
+    transition: width 0.3s ease;
 }
 
-.form-container a:hover::after {
+.form-container a:hover::after,
+.switch-link:hover::after {
     width: 100%;
 }
 
-.form-container .forgot-password {
-    margin-top: 15px;
-    font-size: 14px;
+.forgot-password {
+    margin-top: 14px;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
 }
 
-/* Overlay Styles */
+/* Mobile toggle text — hidden on desktop */
+.mobile-toggle-text {
+    display: none;
+}
+
+/* ============================================================
+   OVERLAY (Desktop)
+   ============================================================ */
 .overlay-container {
     position: absolute;
     top: 0;
@@ -231,8 +352,9 @@ body::after {
     width: 50%;
     height: 100%;
     overflow: hidden;
-    transition: transform 0.6s ease-in-out;
+    transition: transform var(--transition);
     z-index: 100;
+    will-change: transform;
 }
 
 .container.right-panel-active .overlay-container {
@@ -240,17 +362,15 @@ body::after {
 }
 
 .overlay {
-    background: linear-gradient(135deg, #ff69b4, #8a2be2);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 0 0;
-    color: #FFFFFF;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+    color: var(--white);
     position: relative;
     left: -100%;
     height: 100%;
     width: 200%;
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
+    transition: transform var(--transition);
+    will-change: transform;
 }
 
 .container.right-panel-active .overlay {
@@ -259,20 +379,21 @@ body::after {
 
 .overlay-panel {
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 50px;
-    text-align: center;
     top: 0;
     height: 100%;
     width: 50%;
-    transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 40px;
+    text-align: center;
+    transition: transform var(--transition);
+    will-change: transform;
 }
 
 .overlay-left {
+    left: 0;
     transform: translateX(-20%);
 }
 
@@ -289,205 +410,203 @@ body::after {
     transform: translateX(20%);
 }
 
+.overlay-panel i {
+    font-size: 64px;
+    opacity: 0.9;
+    color: var(--white);
+    margin-bottom: 24px;
+}
+
 .overlay-panel h1 {
-    margin-bottom: 20px;
+    font-size: 30px;
     font-weight: 700;
-    font-size: 32px;
+    margin-bottom: 16px;
 }
 
 .overlay-panel p {
-    margin-bottom: 30px;
-    font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.9;
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 0.88;
+    margin-bottom: 32px;
 }
 
-.overlay-panel i {
-    font-size: 70px;
-    margin-bottom: 25px;
-    opacity: 0.9;
-    color: white;
-}
-
-/* Outline Buttons */
-.purple-outline-btn, .pink-outline-btn {
-    border-radius: 12px;
-    border: 2px solid white;
-    background-color: transparent;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 15px 45px;
-    margin-top: 10px;
-    letter-spacing: 1px;
+.outline-btn {
+    border: 2px solid var(--white);
+    background: transparent;
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 13px 40px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+    transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.purple-outline-btn:hover {
-    background-color: #8a2be2;
-    border-color: #8a2be2;
+.outline-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
-.pink-outline-btn:hover {
-    background-color: #ff69b4;
-    border-color: #ff69b4;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3);
+.outline-btn:active {
+    transform: translateY(-1px);
 }
 
-/* Password Container */
-.password-container {
-    position: relative;
-    width: 100%;
-}
-
-.password-container input {
-    width: 100%;
-    padding-right: 50px;
-}
-
-.password-container i {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #888;
-    font-size: 18px;
-    transition: color 0.3s;
-    padding: 5px;
-}
-
-.password-container i:hover {
-    color: #ff69b4;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-    
-    .container {
-        flex-direction: column;
-        min-height: auto;
-        max-width: 100%;
-        border-radius: 20px;
-    }
-    
-    .form-container {
-        position: relative;
-        width: 100%;
-        padding: 40px 30px;
-        opacity: 1;
-        transform: none;
-    }
-    
-    .login-container, .sign-up-container {
-        position: relative;
-        left: 0;
-        width: 100%;
-    }
-    
-    .container.right-panel-active .login-container,
-    .container.right-panel-active .sign-up-container {
-        transform: none;
-    }
-    
-    .overlay-container {
-        display: none;
-    }
-    
-    .sign-up-container {
-        display: none;
-    }
-    
-    .form-header i {
-        font-size: 28px;
-        padding: 12px;
-    }
-    
-    .form-header h1 {
-        font-size: 24px;
-    }
-    
-    .form-container input {
-        padding: 14px 18px;
-        font-size: 14px;
-    }
-    
-    .purple-btn, .pink-btn {
-        padding: 14px 30px;
-        font-size: 15px;
-    }
-    
-    .mobile-toggle {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        padding: 15px;
-        background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(255, 105, 180, 0.1));
-        border-radius: 15px;
-        width: 100%;
-    }
-}
-
-/* Animation */
+/* ============================================================
+   FLOATING ANIMATION
+   ============================================================ */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50%       { transform: translateY(-10px); }
 }
 
 .floating {
-    animation: float 3s ease-in-out infinite;
+    animation: float 3.5s ease-in-out infinite;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ============================================================
+   TOAST MESSAGES
+   ============================================================ */
+@keyframes toastIn {
+    from { transform: translateX(110%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
 }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-out;
+@keyframes toastOut {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(110%); opacity: 0; }
 }
 
-/* Decorative hearts */
-.heart {
-    position: absolute;
-    font-size: 20px;
-    color: #ff69b4;
-    opacity: 0.3;
-    z-index: -1;
-}
-
-/* Mobile-specific elements */
-.mobile-toggle-btn {
-    display: none;
-}
-
+/* ============================================================
+   MOBILE RESPONSIVE  (≤ 768px)
+   ============================================================ */
 @media (max-width: 768px) {
-    .mobile-toggle-btn {
-        display: block;
-        width: 100%;
-        margin-top: 20px;
-        padding: 12px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #ff69b4, #8a2be2);
-        color: white;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
+
+    body {
+        padding: 0;
+        align-items: flex-start;
+        background: linear-gradient(160deg, var(--purple) 0%, var(--pink) 100%);
+        min-height: 100dvh;
     }
-    
-    .mobile-toggle-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+
+    .container {
+        width: 100%;
+        min-height: 100dvh;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        display: block;
+        background: transparent;
+        overflow: visible;
+    }
+
+    /* Hide desktop overlay panel */
+    .overlay-container {
+        display: none !important;
+    }
+
+    /* Both panels use full-width card style */
+    .form-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 40px 28px 32px;
+        background: var(--white);
+        border-radius: 0;
+        z-index: 1;
+        /* Slide animation */
+        opacity: 0;
+        transform: translateX(60px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        pointer-events: none;
+        overflow-y: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Active state on mobile: driven by .mobile-active class */
+    .form-container.mobile-active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: all;
+        z-index: 2;
+    }
+
+    /* Override desktop transitions on mobile */
+    .container.right-panel-active .login-container,
+    .container.right-panel-active .sign-up-container {
+        transform: none;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .form-container.mobile-active {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+        pointer-events: all !important;
+    }
+
+    /* Padding adjustments */
+    .form-header {
+        margin-bottom: 22px;
+    }
+
+    .form-header i {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .form-header h1 {
+        font-size: 26px;
+    }
+
+    .form-container input {
+        padding: 13px 18px 13px 44px;
+        font-size: 15px;
+    }
+
+    .btn {
+        padding: 15px 30px;
+        font-size: 15px;
+        margin-top: 20px;
+        border-radius: 12px;
+    }
+
+    /* Show mobile toggle text */
+    .mobile-toggle-text {
+        display: block;
+        margin-top: 24px;
+        font-size: 14.5px;
+    }
+
+    /* Decorative banner at top of mobile card */
+    .form-container::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--purple), var(--pink));
+        z-index: 10;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+    .form-container {
+        padding: 36px 20px 28px;
+    }
+
+    .form-header h1 {
+        font-size: 22px;
+    }
+
+    .btn {
+        font-size: 14px;
     }
 }

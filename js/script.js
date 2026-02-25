@@ -1,420 +1,314 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Get elements
-    const container = document.getElementById('container');
-    const goToLogin = document.getElementById('goToLogin');
-    const goToSignup = document.getElementById('goToSignup');
-    const signInButton = document.getElementById('signInButton');
-    const signUpButton = document.getElementById('signUpButton');
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const toggleLoginPassword = document.getElementById('toggleLoginPassword');
-    const toggleSignupPassword = document.getElementById('toggleSignupPassword');
-    const loginPassword = document.getElementById('loginPassword');
-    const signupPassword = document.getElementById('signupPassword');
-    const forgotPassword = document.getElementById('forgotPassword');
-    
-    // Toggle between login and signup forms
-    goToLogin.addEventListener('click', () => {
-        container.classList.remove('right-panel-active');
-    });
-            
-    goToSignup.addEventListener('click', () => {
-        container.classList.add('right-panel-active');
-    });
-    
-    signInButton.addEventListener('click', () => {
-        container.classList.remove('right-panel-active');
-    });
-            
-    signUpButton.addEventListener('click', () => {
-        container.classList.add('right-panel-active');
-    });
-            
-    // Toggle password visibility
-    toggleLoginPassword.addEventListener('click', function() {
-        const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        loginPassword.setAttribute('type', type);
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-    });
-            
-    toggleSignupPassword.addEventListener('click', function() {
-        const type = signupPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        signupPassword.setAttribute('type', type);
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-    });
-            
-    // Form submission handling
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        
-        // Simple validation
-        if (!email || !password) {
-            alert('Please fill in all fields');
-            return;
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ─── Element References ─────────────────────────────── */
+    const container          = document.getElementById('container');
+    const loginForm          = document.getElementById('loginForm');
+    const signupForm         = document.getElementById('signupForm');
+
+    const loginContainer     = document.querySelector('.login-container');
+    const signupContainer    = document.querySelector('.sign-up-container');
+
+    // Desktop overlay buttons
+    const signInButton       = document.getElementById('signInButton');
+    const signUpButton       = document.getElementById('signUpButton');
+
+    // Mobile switch links
+    const mobileGoToLogin    = document.getElementById('mobileGoToLogin');
+    const mobileGoToSignup   = document.getElementById('mobileGoToSignup');
+
+    // Password fields & toggles
+    const loginPassword      = document.getElementById('loginPassword');
+    const signupPassword     = document.getElementById('signupPassword');
+    const toggleLoginPw      = document.getElementById('toggleLoginPassword');
+    const toggleSignupPw     = document.getElementById('toggleSignupPassword');
+
+    // Forgot password link
+    const forgotPassword     = document.getElementById('forgotPassword');
+
+    /* ─── Detect Mobile ──────────────────────────────────── */
+    const isMobile = () => window.innerWidth <= 768;
+
+    /* ─── Panel Switching ────────────────────────────────── */
+    function showLogin() {
+        if (isMobile()) {
+            signupContainer.classList.remove('mobile-active');
+            loginContainer.classList.add('mobile-active');
+        } else {
+            container.classList.remove('right-panel-active');
         }
-                
-        // In a real application, you would send this data to a server
-        console.log('Login attempt:', { email, password });
-        alert('Login successful! (This is a demo)');
-                
-        // Reset form
-        loginForm.reset();
-    });
-            
-    signupForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const username = document.getElementById('signupUsername').value;
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-                
-        // Simple validation
-        if (!username || !email || !password) {
-            alert('Please fill in all fields');
-            return;
-        }
-                
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters long');
-            return;
-        }
-                
-        // In a real application, you would send this data to a server
-        console.log('Signup attempt:', { username, email, password });
-        alert('Signup successful! (This is a demo)');
-            
-        // Reset form and go to login
-        signupForm.reset();
-        container.classList.remove('right-panel-active');
-    });
-            
-    // Forgot password handling
-    forgotPassword.addEventListener('click', function() {
-        const email = prompt('Please enter your email to reset password:');
-        if (email) {
-            // In a real application, you would send a reset email
-            console.log('Password reset requested for:', email);
-            alert('If an account exists with this email, you will receive a password reset link. (This is a demo)');
-        }
-    });
-            
-    // Mobile toggle form visibility
-    if (window.innerWidth <= 768) {
-        // Add mobile-specific toggle buttons
-        const loginContainer = document.querySelector('.login-container');
-        const signupContainer = document.querySelector('.sign-up-container');
-        
-        const loginToggle = document.createElement('div');
-        loginToggle.className = 'toggle-form';
-        loginToggle.innerHTML = '<p>Create An Account <a id="mobileGoToSignup">Sign Up</a></p>';
-        loginContainer.appendChild(loginToggle);
-                
-        const signupToggle = document.createElement('div');
-        signupToggle.className = 'toggle-form';
-        signupToggle.innerHTML = '<p>Already Have Account? <a id="mobileGoToLogin">Login</a></p>';
-        signupContainer.appendChild(signupToggle);
-                
-        // Add event listeners for mobile toggles
-        document.getElementById('mobileGoToSignup').addEventListener('click', () => {
-            signupContainer.style.display = 'flex';
-            loginContainer.style.display = 'none';
-        });
-                
-        document.getElementById('mobileGoToLogin').addEventListener('click', () => {
-            signupContainer.style.display = 'none';
-            loginContainer.style.display = 'flex';
-        });
-                
-        // Initially hide signup form on mobile
-        signupContainer.style.display = 'none';
     }
-});document.addEventListener('DOMContentLoaded', function() {
-    // Get elements
-    const container = document.getElementById('container');
-    const goToLogin = document.getElementById('goToLogin');
-    const goToSignup = document.getElementById('goToSignup');
-    const signInButton = document.getElementById('signInButton');
-    const signUpButton = document.getElementById('signUpButton');
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const toggleLoginPassword = document.getElementById('toggleLoginPassword');
-    const toggleSignupPassword = document.getElementById('toggleSignupPassword');
-    const loginPassword = document.getElementById('loginPassword');
-    const signupPassword = document.getElementById('signupPassword');
-    const forgotPassword = document.getElementById('forgotPassword');
-    
-    // Add floating animation to icons
-    document.querySelectorAll('.form-header i, .overlay-panel i').forEach(icon => {
-        icon.classList.add('floating');
-    });
-    
-    // Add fade-in animation to forms
-    document.querySelectorAll('.form-container').forEach(form => {
-        form.classList.add('fade-in');
-    });
-    
-    // Toggle between login and signup forms
-    const showLogin = () => {
-        container.classList.remove('right-panel-active');
-    };
-    
-    const showSignup = () => {
-        container.classList.add('right-panel-active');
-    };
-    
-    goToLogin.addEventListener('click', showLogin);
-    goToSignup.addEventListener('click', showSignup);
+
+    function showSignup() {
+        if (isMobile()) {
+            loginContainer.classList.remove('mobile-active');
+            signupContainer.classList.add('mobile-active');
+        } else {
+            container.classList.add('right-panel-active');
+        }
+    }
+
+    // Desktop
     signInButton.addEventListener('click', showLogin);
     signUpButton.addEventListener('click', showSignup);
-    
-    // Toggle password visibility with animation
-    const togglePassword = (passwordField, toggleIcon) => {
-        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordField.setAttribute('type', type);
-        
-        // Add animation
-        toggleIcon.style.transform = 'translateY(-50%) scale(1.2)';
+
+    // Mobile
+    mobileGoToLogin.addEventListener('click', showLogin);
+    mobileGoToSignup.addEventListener('click', showSignup);
+
+    /* ─── Initial Mobile State ───────────────────────────── */
+    function initMobileState() {
+        if (isMobile()) {
+            loginContainer.classList.add('mobile-active');
+            signupContainer.classList.remove('mobile-active');
+        } else {
+            // Reset any leftover mobile classes on resize to desktop
+            loginContainer.classList.remove('mobile-active');
+            signupContainer.classList.remove('mobile-active');
+        }
+    }
+
+    initMobileState();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initMobileState, 150);
+    });
+
+    /* ─── Password Visibility Toggle ────────────────────── */
+    function togglePassword(field, icon) {
+        const isHidden = field.type === 'password';
+        field.type = isHidden ? 'text' : 'password';
+        icon.classList.toggle('fa-eye', !isHidden);
+        icon.classList.toggle('fa-eye-slash', isHidden);
+
+        // Brief pop animation
+        icon.style.transition = 'transform 0.2s ease';
+        icon.style.transform  = 'translateY(-50%) scale(1.25)';
         setTimeout(() => {
-            toggleIcon.style.transform = 'translateY(-50%) scale(1)';
+            icon.style.transform = 'translateY(-50%) scale(1)';
         }, 200);
-        
-        toggleIcon.classList.toggle('fa-eye');
-        toggleIcon.classList.toggle('fa-eye-slash');
-    };
-    
-    toggleLoginPassword.addEventListener('click', () => {
-        togglePassword(loginPassword, toggleLoginPassword);
-    });
-    
-    toggleSignupPassword.addEventListener('click', () => {
-        togglePassword(signupPassword, toggleSignupPassword);
-    });
-    
-    // Form submission handling with validation
-    loginForm.addEventListener('submit', function(e) {
+    }
+
+    toggleLoginPw.addEventListener('click',  () => togglePassword(loginPassword,  toggleLoginPw));
+    toggleSignupPw.addEventListener('click', () => togglePassword(signupPassword, toggleSignupPw));
+
+    /* ─── Toast Notification ─────────────────────────────── */
+    function showToast(message, type = 'success') {
+        // Remove existing toast
+        document.querySelectorAll('.toast').forEach(t => t.remove());
+
+        const icon    = type === 'success' ? 'check-circle' : 'exclamation-circle';
+        const bgColor = type === 'success'
+            ? 'linear-gradient(135deg, #43b97f, #2e9e65)'
+            : 'linear-gradient(135deg, #ff6b6b, #e84545)';
+
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.setAttribute('role', 'alert');
+        toast.innerHTML = `
+            <i class="fas fa-${icon}"></i>
+            <span>${message}</span>
+            <button class="toast-close" aria-label="Close"><i class="fas fa-times"></i></button>
+        `;
+
+        Object.assign(toast.style, {
+            position:     'fixed',
+            top:          '20px',
+            right:        '20px',
+            padding:      '14px 20px',
+            borderRadius: '12px',
+            background:   bgColor,
+            color:        '#fff',
+            display:      'flex',
+            alignItems:   'center',
+            gap:          '10px',
+            zIndex:       '9999',
+            boxShadow:    '0 8px 24px rgba(0,0,0,0.18)',
+            fontSize:     '14.5px',
+            fontWeight:   '600',
+            maxWidth:     '340px',
+            animation:    'toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards',
+        });
+
+        const closeBtn = toast.querySelector('.toast-close');
+        closeBtn.style.cssText = 'background:none;border:none;color:#fff;cursor:pointer;font-size:15px;padding:2px;margin-left:4px;opacity:0.8;';
+
+        function removeToast() {
+            toast.style.animation = 'toastOut 0.3s ease forwards';
+            setTimeout(() => toast.remove(), 300);
+        }
+
+        closeBtn.addEventListener('click', removeToast);
+        setTimeout(removeToast, 5000);
+
+        document.body.appendChild(toast);
+    }
+
+    /* ─── Input Validation ───────────────────────────────── */
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    }
+
+    function markField(field, valid) {
+        field.style.borderColor = valid ? 'transparent' : '#ff6b6b';
+        if (valid) {
+            field.style.boxShadow = '';
+        } else {
+            field.style.boxShadow = '0 0 0 4px rgba(255,107,107,0.15)';
+            field.focus();
+        }
+    }
+
+    /* ─── Simulate API Call ──────────────────────────────── */
+    function simulateApiCall() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                Math.random() > 0.25 ? resolve() : reject();
+            }, 900);
+        });
+    }
+
+    /* ─── Button Loading State ───────────────────────────── */
+    function setLoading(btn, loading) {
+        btn.disabled = loading;
+        if (loading) {
+            btn.dataset.label = btn.querySelector('span').textContent;
+            btn.querySelector('span').textContent = 'Please wait...';
+            btn.querySelector('i').className = 'fas fa-spinner fa-spin';
+        } else {
+            btn.querySelector('span').textContent = btn.dataset.label || '';
+            btn.querySelector('i').className = 'fas fa-arrow-right';
+        }
+    }
+
+    /* ─── Login Form Submit ──────────────────────────────── */
+    loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
-        
-        if (!validateEmail(email)) {
-            showMessage('Please enter a valid email address', 'error');
+
+        const email    = document.getElementById('loginEmail');
+        const password = loginPassword;
+        const btn      = this.querySelector('button[type="submit"]');
+
+        let valid = true;
+
+        if (!isValidEmail(email.value)) {
+            markField(email, false);
+            valid = false;
+        } else {
+            markField(email, true);
+        }
+
+        if (password.value.length < 1) {
+            markField(password, false);
+            valid = false;
+        } else {
+            markField(password, true);
+        }
+
+        if (!valid) {
+            showToast('Please fill in all fields correctly.', 'error');
             return;
         }
-        
-        if (!password) {
-            showMessage('Please enter your password', 'error');
-            return;
-        }
-        
-        // Simulate API call
-        simulateApiCall('login', { email, password })
+
+        setLoading(btn, true);
+
+        simulateApiCall()
             .then(() => {
-                showMessage('Login successful! Welcome back!', 'success');
+                showToast('Login successful! Welcome back 👋', 'success');
                 loginForm.reset();
             })
             .catch(() => {
-                showMessage('Invalid credentials. Please try again.', 'error');
-            });
+                showToast('Invalid email or password. Try again.', 'error');
+            })
+            .finally(() => setLoading(btn, false));
     });
-    
-    signupForm.addEventListener('submit', function(e) {
+
+    /* ─── Signup Form Submit ─────────────────────────────── */
+    signupForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const username = document.getElementById('signupUsername').value.trim();
-        const email = document.getElementById('signupEmail').value.trim();
-        const password = document.getElementById('signupPassword').value.trim();
-        
-        if (!username || username.length < 3) {
-            showMessage('Username must be at least 3 characters long', 'error');
+
+        const username = document.getElementById('signupUsername');
+        const email    = document.getElementById('signupEmail');
+        const password = signupPassword;
+        const btn      = this.querySelector('button[type="submit"]');
+
+        let valid = true;
+
+        if (username.value.trim().length < 3) {
+            markField(username, false);
+            valid = false;
+        } else {
+            markField(username, true);
+        }
+
+        if (!isValidEmail(email.value)) {
+            markField(email, false);
+            valid = false;
+        } else {
+            markField(email, true);
+        }
+
+        if (password.value.length < 6) {
+            markField(password, false);
+            valid = false;
+        } else {
+            markField(password, true);
+        }
+
+        if (!valid) {
+            showToast('Please fill all fields correctly. Password must be 6+ chars.', 'error');
             return;
         }
-        
-        if (!validateEmail(email)) {
-            showMessage('Please enter a valid email address', 'error');
-            return;
-        }
-        
-        if (password.length < 6) {
-            showMessage('Password must be at least 6 characters long', 'error');
-            return;
-        }
-        
-        // Simulate API call
-        simulateApiCall('signup', { username, email, password })
+
+        setLoading(btn, true);
+
+        simulateApiCall()
             .then(() => {
-                showMessage('Account created successfully! Welcome!', 'success');
+                showToast('Account created! Please login 🎉', 'success');
                 signupForm.reset();
-                showLogin();
+                setTimeout(showLogin, 1000);
             })
             .catch(() => {
-                showMessage('Email already exists. Please use a different email.', 'error');
+                showToast('Email already in use. Try a different one.', 'error');
+            })
+            .finally(() => setLoading(btn, false));
+    });
+
+    /* ─── Forgot Password ────────────────────────────────── */
+    forgotPassword.addEventListener('click', function () {
+        const email = prompt('Enter your email to receive a reset link:');
+        if (!email) return;
+
+        if (!isValidEmail(email)) {
+            showToast('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        showToast('Reset link sent! Check your inbox 📬', 'success');
+    });
+
+    /* ─── Decorative floating hearts (desktop only) ──────── */
+    if (!isMobile()) {
+        const shapes   = document.querySelector('.bg-shapes');
+        const emojis   = ['❤️', '✨', '💜', '🌸'];
+        const count    = 6;
+
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('span');
+            el.textContent = emojis[i % emojis.length];
+            Object.assign(el.style, {
+                position:  'absolute',
+                fontSize:  `${18 + Math.random() * 16}px`,
+                opacity:   `${0.12 + Math.random() * 0.15}`,
+                top:       `${Math.random() * 100}%`,
+                left:      `${Math.random() * 100}%`,
+                animation: `float ${4 + Math.random() * 4}s ease-in-out ${Math.random() * 2}s infinite`,
+                userSelect:'none',
+                pointerEvents:'none',
             });
-    });
-    
-    // Forgot password handling
-    forgotPassword.addEventListener('click', function() {
-        const email = prompt('📧 Enter your email to reset password:');
-        if (email && validateEmail(email)) {
-            simulateApiCall('forgot-password', { email })
-                .then(() => {
-                    showMessage('Password reset link sent to your email!', 'success');
-                })
-                .catch(() => {
-                    showMessage('Email not found. Please try again.', 'error');
-                });
-        } else if (email) {
-            showMessage('Please enter a valid email address', 'error');
-        }
-    });
-    
-    // Utility functions
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-    
-    function showMessage(message, type) {
-        // Remove existing messages
-        const existingMsg = document.querySelector('.message');
-        if (existingMsg) existingMsg.remove();
-        
-        // Create message element
-        const msgEl = document.createElement('div');
-        msgEl.className = `message ${type}`;
-        msgEl.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-            <span>${message}</span>
-            <i class="fas fa-times close-message"></i>
-        `;
-        
-        // Style the message
-        msgEl.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 12px;
-            background: ${type === 'success' ? 'linear-gradient(135deg, #4CAF50, #45a049)' : 'linear-gradient(135deg, #ff6b6b, #ff5252)'};
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: slideIn 0.3s ease-out;
-        `;
-        
-        // Add close button functionality
-        msgEl.querySelector('.close-message').addEventListener('click', () => {
-            msgEl.style.animation = 'slideOut 0.3s ease-out';
-            setTimeout(() => msgEl.remove(), 300);
-        });
-        
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (msgEl.parentNode) {
-                msgEl.style.animation = 'slideOut 0.3s ease-out';
-                setTimeout(() => msgEl.remove(), 300);
-            }
-        }, 5000);
-        
-        document.body.appendChild(msgEl);
-        
-        // Add CSS for animations
-        if (!document.querySelector('#message-styles')) {
-            const style = document.createElement('style');
-            style.id = 'message-styles';
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                @keyframes slideOut {
-                    from { transform: translateX(0); opacity: 1; }
-                    to { transform: translateX(100%); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
+            shapes && shapes.appendChild(el);
         }
     }
-    
-    function simulateApiCall(endpoint, data) {
-        return new Promise((resolve, reject) => {
-            // Simulate network delay
-            setTimeout(() => {
-                console.log(`API Call to ${endpoint}:`, data);
-                
-                // For demo purposes, randomly succeed or fail
-                const shouldSucceed = Math.random() > 0.3;
-                
-                if (shouldSucceed) {
-                    resolve({ success: true, message: 'Operation successful' });
-                } else {
-                    reject({ success: false, message: 'Operation failed' });
-                }
-            }, 1000);
-        });
-    }
-    
-    // Mobile-specific handling
-    if (window.innerWidth <= 768) {
-        const loginContainer = document.querySelector('.login-container');
-        const signupContainer = document.querySelector('.sign-up-container');
-        
-        // Create mobile toggle button for login page
-        const loginToggleBtn = document.createElement('button');
-        loginToggleBtn.className = 'mobile-toggle-btn';
-        loginToggleBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create New Account';
-        loginToggleBtn.addEventListener('click', () => {
-            loginContainer.style.display = 'none';
-            signupContainer.style.display = 'flex';
-            signupContainer.classList.add('fade-in');
-        });
-        loginContainer.appendChild(loginToggleBtn);
-        
-        // Create mobile toggle button for signup page
-        const signupToggleBtn = document.createElement('button');
-        signupToggleBtn.className = 'mobile-toggle-btn';
-        signupToggleBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Already have account?';
-        signupToggleBtn.addEventListener('click', () => {
-            signupContainer.style.display = 'none';
-            loginContainer.style.display = 'flex';
-            loginContainer.classList.add('fade-in');
-        });
-        signupContainer.appendChild(signupToggleBtn);
-        
-        // Hide signup container initially on mobile
-        signupContainer.style.display = 'none';
-    }
-    
-    // Add decorative hearts for desktop
-    if (window.innerWidth > 768) {
-        for (let i = 0; i < 5; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '❤️';
-            heart.style.cssText = `
-                position: absolute;
-                font-size: ${20 + Math.random() * 15}px;
-                color: #ff69b4;
-                opacity: ${0.1 + Math.random() * 0.2};
-                top: ${Math.random() * 100}vh;
-                left: ${Math.random() * 100}vw;
-                animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
-                z-index: -1;
-            `;
-            document.body.appendChild(heart);
-        }
-    }
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            // Show both forms for desktop
-            document.querySelector('.login-container').style.display = 'flex';
-            document.querySelector('.sign-up-container').style.display = 'flex';
-        }
-    });
+
 });

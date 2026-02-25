@@ -4,65 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Signup Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    <!-- Decorative floating hearts (desktop only) -->
+    <div class="bg-shapes" aria-hidden="true"></div>
+
     <div class="container" id="container">
+
+        <!-- SIGN UP FORM -->
         <div class="form-container sign-up-container">
             <div class="form-header">
-                <i class="fas fa-user-plus"></i>
+                <i class="fas fa-user-plus floating"></i>
                 <h1>Create Account</h1>
             </div>
-            <form id="signupForm">
-                <input type="text" id="signupUsername" placeholder="Username" required />
-                <input type="email" id="signupEmail" placeholder="Email" required />
-                <div class="password-container">
-                    <input type="password" id="signupPassword" placeholder="Password" required />
-                    <i class="fas fa-eye" id="toggleSignupPassword"></i>
+            <form id="signupForm" novalidate>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="signupUsername" placeholder="Username" autocomplete="username" required />
                 </div>
-                <button type="submit" class="pink-btn">Sign Up</button>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signupEmail" placeholder="Email" autocomplete="email" required />
+                </div>
+                <div class="input-group password-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPassword" placeholder="Password" autocomplete="new-password" required />
+                    <i class="fas fa-eye toggle-pw" id="toggleSignupPassword" title="Show/Hide Password"></i>
+                </div>
+                <button type="submit" class="btn pink-btn">
+                    <span>Sign Up</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
             </form>
-            <p>Already have an account? <a id="goToLogin">Login</a></p>
+            <!-- Mobile-only toggle -->
+            <p class="mobile-toggle-text">Already have an account? <a class="switch-link" id="mobileGoToLogin">Login</a></p>
         </div>
-        
+
+        <!-- LOGIN FORM -->
         <div class="form-container login-container">
             <div class="form-header">
-                <i class="fas fa-sign-in-alt"></i>
+                <i class="fas fa-sign-in-alt floating"></i>
                 <h1>Welcome Back!</h1>
             </div>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required />
-                <div class="password-container">
-                    <input type="password" id="loginPassword" placeholder="Password" required />
-                    <i class="fas fa-eye" id="toggleLoginPassword"></i>
+            <form id="loginForm" novalidate>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="loginEmail" placeholder="Email" autocomplete="email" required />
                 </div>
-                <button type="submit" class="purple-btn">Login</button>
+                <div class="input-group password-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" required />
+                    <i class="fas fa-eye toggle-pw" id="toggleLoginPassword" title="Show/Hide Password"></i>
+                </div>
+                <button type="submit" class="btn purple-btn">
+                    <span>Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
                 <div class="forgot-password">
                     <a id="forgotPassword">Forgot Password?</a>
                 </div>
             </form>
-            <p>Don't have an account? <a id="goToSignup">Sign Up</a></p>
+            <!-- Mobile-only toggle -->
+            <p class="mobile-toggle-text">Don't have an account? <a class="switch-link" id="mobileGoToSignup">Sign Up</a></p>
         </div>
-        
-        <div class="overlay-container">
+
+        <!-- OVERLAY (Desktop) -->
+        <div class="overlay-container" aria-hidden="true">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart floating"></i>
                     <h1>Welcome Back!</h1>
-                    <p>To keep connected with us please login with your personal info</p>
-                    <button id="signInButton" class="pink-outline-btn">Sign In</button>
+                    <p>To keep connected with us, please login with your personal info</p>
+                    <button id="signInButton" class="outline-btn">Sign In</button>
                 </div>
                 <div class="overlay-panel overlay-right">
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star floating"></i>
                     <h1>Hello, Friend!</h1>
                     <p>Enter your personal details and start your journey with us</p>
-                    <button id="signUpButton" class="purple-outline-btn">Sign Up</button>
+                    <button id="signUpButton" class="outline-btn">Sign Up</button>
                 </div>
             </div>
         </div>
+
     </div>
+
     <script src="./js/script.js"></script>
 </body>
 </html>
